@@ -4,4 +4,9 @@ public class Espaco {
 	int x;
 	int y;
 	char icone;
+	
+	void copiaPosicao(Espaco local) {
+		this.x = local.x;
+		this.y = local.y;
+	}
 }

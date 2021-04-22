@@ -4,6 +4,7 @@ public class Tabuleiro {
 	Espaco espacos[][];
 	Tabuleiro(){
 		espacos = new Espaco[8][8];
+		
 	}
 	
 	public String criaString() {
