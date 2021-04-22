@@ -1,5 +1,4 @@
 package mc322.lab05;
-import java.lang.Math;
 
 public class Dama extends Espaco{
 	Dama(int x, int y, char cor){
@@ -11,6 +10,7 @@ public class Dama extends Espaco{
 	boolean move(Tabuleiro tabuleiro,int xf, int yf) {
 		
 		if(tabuleiro.espacos[xf][yf].icone != '-') {
+			System.out.println("aqui1");
 			return false;
 		}
 		
@@ -18,12 +18,14 @@ public class Dama extends Espaco{
 		if( coeficiente_angular == 1 || coeficiente_angular == -1){
 			Espaco peca_comida = null;
 			
-			for(int i = this.x; i != xf; i+=coeficiente_angular) {
+			for(int i = this.x+coeficiente_angular; i != xf; i+=coeficiente_angular) {
+				
 				if(tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y].icone != '-') {
 					if(peca_comida == null && (tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y].icone == (this.icone == 'B' ? 'p':'b') || tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y].icone == (this.icone == 'B' ? 'P':'B'))) {
 						peca_comida = tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y];
 					}
 					else {
+						System.out.println("aqui2");
 						return false;
 					}
 				}
@@ -34,7 +36,7 @@ public class Dama extends Espaco{
 			this.copiaPosicao(tabuleiro.espacos[xf][yf]);
 			
 			tabuleiro.espacos[xf][yf] = this;
-			tabuleiro.espacos[this.x][this.y] = transferencia;
+			tabuleiro.espacos[transferencia.x][transferencia.y] = transferencia;
 			
 			if(peca_comida !=null) {
 				Vazio espaco_peca_comida = new Vazio(0,0);
@@ -44,6 +46,7 @@ public class Dama extends Espaco{
 			return true;
 			
 		}
+		System.out.println("aqui3");
 		return false;
 	}
 }
