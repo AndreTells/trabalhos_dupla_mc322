@@ -10,7 +10,6 @@ public class Dama extends Espaco{
 	boolean move(Tabuleiro tabuleiro,int xf, int yf) {
 		
 		if(tabuleiro.espacos[xf][yf].icone != '-') {
-			System.out.println("aqui1");
 			return false;
 		}
 		
@@ -25,7 +24,6 @@ public class Dama extends Espaco{
 						peca_comida = tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y];
 					}
 					else {
-						System.out.println("aqui2");
 						return false;
 					}
 				}
@@ -46,7 +44,6 @@ public class Dama extends Espaco{
 			return true;
 			
 		}
-		System.out.println("aqui3");
 		return false;
 	}
 }

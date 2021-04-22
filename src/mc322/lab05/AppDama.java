@@ -9,7 +9,5 @@ public class AppDama {
 		t.movePeca(7, 0, 4, 3);
 		t.imprimeTabuleiro();
 		System.out.println("yay");
-		
-		
 	}
 }

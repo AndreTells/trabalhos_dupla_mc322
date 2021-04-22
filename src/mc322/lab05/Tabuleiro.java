@@ -13,11 +13,12 @@ public class Tabuleiro {
 		}
 		Dama d1 = new Dama(0,0,'p');
 		Dama d2 = new Dama(0,0,'b');
+		
 		d1.copiaPosicao(espacos[7][0]);
 		espacos[7][0] = d1;
 		
-		d2.copiaPosicao(espacos[5][2]);
-		espacos[5][2] = d2;
+		d2.copiaPosicao(espacos[4][3]);
+		espacos[4][3] = d2;
 	}
 	
 	public String criaString() {
@@ -43,8 +44,22 @@ public class Tabuleiro {
 	}
 
 	public void movePeca(int xi,int yi,int xf,int yf) {
-		Dama d = (Dama) espacos[xi][yi];
-		d.move(this, xf, yf);
+		//checa se esta dentro do tabuleiro
+		if(xi>8 || xi<0 || yi>8 || yi<0 || xf>8 || xf<0 || yf>8 || yf<0) {
+			System.out.println("movimento ilegal");
+		}
+		
+		//checa se posicao inicial contem uma peca
+		if(espacos[xi][yi].icone != '-') {
+			Dama d = (Dama) espacos[xi][yi];
+			if(!d.move(this, xf, yf)) {
+				System.out.println("movimento ilegal");
+			}
+		}
+		else {
+			System.out.println("movimento ilegal");
+		}
+		
 	}
 	
 }
