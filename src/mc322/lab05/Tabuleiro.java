@@ -51,8 +51,8 @@ public class Tabuleiro {
 		
 		//checa se posicao inicial contem uma peca
 		if(espacos[xi][yi].icone != '-') {
-			Dama d = (Dama) espacos[xi][yi];
-			if(!d.move(this, xf, yf)) {
+			Espaco peca = espacos[xi][yi];
+			if(!peca.move(this, xf, yf)) {
 				System.out.println("movimento ilegal");
 			}
 		}

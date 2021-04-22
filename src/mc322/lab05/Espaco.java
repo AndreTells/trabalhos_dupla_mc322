@@ -9,4 +9,7 @@ public class Espaco {
 		this.x = local.x;
 		this.y = local.y;
 	}
+	boolean move(Tabuleiro tabuleiro,int xf, int yf) {
+		return false;
+	}
 }
