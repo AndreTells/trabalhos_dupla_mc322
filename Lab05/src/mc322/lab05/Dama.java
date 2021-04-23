@@ -22,7 +22,6 @@ public class Dama extends Espaco{
 			int y_referencia = x_referencia == this.x ? this.y:yf;
 			
 			for(int i = x_referencia+coeficiente_angular; i !=  (x_referencia == this.x ? xf:this.x); i+=coeficiente_angular) {
-				System.out.println(i);
 				
 				if(tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone != '-') {
 					if(peca_comida == null && (tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (this.icone == 'B' ? 'p':'b') || tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (this.icone == 'B' ? 'P':'B'))) {
@@ -51,7 +50,6 @@ public class Dama extends Espaco{
 				Vazio espaco_peca_comida = new Vazio(0,0);
 				espaco_peca_comida.copiaPosicao(peca_comida);
 				tabuleiro.espacos[peca_comida.x][peca_comida.y] = espaco_peca_comida;
-				tabuleiro.cor_atual = this.icone == 'P' ? 'b':'p';
 			}
 			return true;
 			
