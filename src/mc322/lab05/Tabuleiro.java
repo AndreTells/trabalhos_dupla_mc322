@@ -2,8 +2,11 @@ package mc322.lab05;
 
 public class Tabuleiro {
 	Espaco espacos[][];
+	char cor_atual;
+	
 	Tabuleiro(){
 		espacos = new Espaco[8][8];
+		cor_atual = 'b';
 	}
 	void iniciaTabuleiroTeste() {
 		for(int i=0;i<8;i++) {
@@ -17,8 +20,8 @@ public class Tabuleiro {
 		d1.copiaPosicao(espacos[7][0]);
 		espacos[7][0] = d1;
 		
-		d2.copiaPosicao(espacos[4][3]);
-		espacos[4][3] = d2;
+		d2.copiaPosicao(espacos[5][2]);
+		espacos[5][2] = d2;
 	}
 	
 	public String criaString() {
@@ -46,16 +49,25 @@ public class Tabuleiro {
 	public void movePeca(int xi,int yi,int xf,int yf) {
 		//checa se esta dentro do tabuleiro
 		if(xi>8 || xi<0 || yi>8 || yi<0 || xf>8 || xf<0 || yf>8 || yf<0) {
-			System.out.println("movimento ilegal");
+			System.out.println("movimento ilegal(movimento fora do tabuleiro)");
 		}
 		
 		//checa se posicao inicial contem uma peca
-		if(espacos[xi][yi].icone != '-') {
-			Espaco peca = espacos[xi][yi];
-			if(!peca.move(this, xf, yf)) {
-				System.out.println("movimento ilegal");
+		if(this.espacos[xi][yi].icone != '-') {
+			if(((this.espacos[xi][yi].icone == 'P' || this.espacos[xi][yi].icone == 'p') ? 'p':'b') != this.cor_atual) {
+				System.out.println("movimento ilegal(essa peca nao eh do jogador atual)");
 			}
+			
+			
+			Espaco peca = this.espacos[xi][yi];
+			if(!peca.move(this, xf, yf)) {
+				return;
+			}
+			
+			//passsa o movimento para o próximo jogador
+			this.cor_atual = this.cor_atual == 'p' ? 'b':'p';
 		}
+		
 		else {
 			System.out.println("movimento ilegal");
 		}

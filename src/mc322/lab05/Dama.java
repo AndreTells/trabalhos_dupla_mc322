@@ -10,6 +10,7 @@ public class Dama extends Espaco{
 	boolean move(Tabuleiro tabuleiro,int xf, int yf) {
 		
 		if(tabuleiro.espacos[xf][yf].icone != '-') {
+			System.out.println("movimento ilegal(posicao final nao esta livre)");
 			return false;
 		}
 		
@@ -23,7 +24,12 @@ public class Dama extends Espaco{
 					if(peca_comida == null && (tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y].icone == (this.icone == 'B' ? 'p':'b') || tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y].icone == (this.icone == 'B' ? 'P':'B'))) {
 						peca_comida = tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y];
 					}
+					else if(peca_comida != null){
+						System.out.println("movimento ilegal(ha mais de uma peca no caminho)");
+						return false;
+					}
 					else {
+						System.out.println("movimento ilegal(ha uma peca do mesmo time no caminho)");
 						return false;
 					}
 				}
@@ -40,10 +46,13 @@ public class Dama extends Espaco{
 				Vazio espaco_peca_comida = new Vazio(0,0);
 				espaco_peca_comida.copiaPosicao(peca_comida);
 				tabuleiro.espacos[peca_comida.x][peca_comida.y] = espaco_peca_comida;
+				tabuleiro.cor_atual = this.icone == 'P' ? 'b':'p';
 			}
 			return true;
 			
 		}
+		
+		System.out.println("movimento ilegal(nao segue as regras de mover-se apenas pelas diagonais)");
 		return false;
 	}
 }
