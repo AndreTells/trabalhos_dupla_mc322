@@ -7,7 +7,7 @@ public class AppDama {
 		t.imprimeTabuleiro();
 		System.out.println("\n"+t.cor_atual);
 		System.out.println("\n-----------------------------\n");
-		t.movePeca(7, 0, 4, 3);
+		t.movePeca(new Movimento(7, 4, 4, 1));
 		t.imprimeTabuleiro();
 		System.out.println("\n"+t.cor_atual);
 	}

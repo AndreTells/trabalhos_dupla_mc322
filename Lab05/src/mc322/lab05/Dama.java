@@ -18,10 +18,11 @@ public class Dama extends Espaco{
 		if( coeficiente_angular == 1 || coeficiente_angular == -1){
 			Espaco peca_comida = null;
 			
-			int x_referencia = Math.max(this.x,xf);
+			int x_referencia = coeficiente_angular == 1 ? Math.min(this.x,xf) : Math.max(this.x,xf);
 			int y_referencia = x_referencia == this.x ? this.y:yf;
 			
-			for(int i = x_referencia+coeficiente_angular; i !=  Math.min(this.x,xf); i+=coeficiente_angular) {
+			for(int i = x_referencia+coeficiente_angular; i !=  (x_referencia == this.x ? xf:this.x); i+=coeficiente_angular) {
+				System.out.println(i);
 				
 				if(tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone != '-') {
 					if(peca_comida == null && (tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (this.icone == 'B' ? 'p':'b') || tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (this.icone == 'B' ? 'P':'B'))) {
@@ -59,4 +60,5 @@ public class Dama extends Espaco{
 		System.out.println("movimento ilegal(nao segue as regras de mover-se apenas pelas diagonais)");
 		return false;
 	}
+
 }
