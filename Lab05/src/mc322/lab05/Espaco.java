@@ -1,5 +1,7 @@
 package mc322.lab05;
 
+import java.util.Queue;
+
 public class Espaco {
 	int x;
 	int y;
@@ -9,7 +11,13 @@ public class Espaco {
 		this.x = local.x;
 		this.y = local.y;
 	}
+	
 	boolean move(Tabuleiro tabuleiro,int xf, int yf) {
 		return false;
 	}
+
+	int buscaMovimentosObrigatorios(Queue<Movimento> movimentos) {
+		return 0;
+	}
+
 }

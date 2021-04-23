@@ -1,12 +1,13 @@
 package mc322.lab05;
 
+import java.util.Arrays;
 import java.util.Queue;
 
 public class Tabuleiro {
 	Espaco espacos[][];
 	char cor_atual;
-	Queue movimentos_obrigatorios_brancas[];
-	Queue movimentos_obrigatorios_pretas[];
+	private Queue<Movimento> movimentos_obrigatorios_brancas[];
+	private Queue<Movimento> movimentos_obrigatorios_pretas[];
 
 	Tabuleiro(){
 		espacos = new Espaco[8][8];
@@ -57,6 +58,35 @@ public class Tabuleiro {
 		return ((peca.icone == 'P' || peca.icone == 'p') ? 'p':'b') == cor;
 	}
 	
+	private void buscaMovimentosObrigatorios() {
+		int index_pecas = 0;
+		int num_pecas_comidas[] = new int[12];
+		//(cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas)
+		Queue movimentos_candidatos []= new Queue[12];
+		for(int i=0;i<8;i++) {
+			for(int j=0;j<8;j++) {
+				if(espacos[i][j].icone != '-') {
+					if(this.ehCor(espacos[i][j], cor_atual)) {
+						movimentos_candidatos[index_pecas] = null;
+						num_pecas_comidas[index_pecas] = espacos[i][j].buscaMovimentosObrigatorios(movimentos_candidatos[index_pecas]);
+						index_pecas++;
+					}
+				}
+			}
+		}
+		
+		Arrays.sort(num_pecas_comidas);
+		int max = num_pecas_comidas[num_pecas_comidas.length-1];
+		
+		int index_resultado = 0;
+		Queue resultado [] = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
+		for(int i  = 0;i<num_pecas_comidas.length;i++) {
+			if(num_pecas_comidas[i] == max) {
+				resultado[index_resultado] = movimentos_candidatos[i];
+				index_resultado++;	
+			}
+		}
+	}
 	
 	public void movePeca(Movimento movimento) {
 		//checa se esta dentro do tabuleiro
@@ -64,13 +94,21 @@ public class Tabuleiro {
 			System.out.println("movimento ilegal(movimento fora do tabuleiro)");
 		}
 		
-		
 		//checa se posicao inicial contem uma peca
 		if(this.espacos[movimento.xi][movimento.yi].icone != '-') {
 			//checa se a peca eh do jogador atual
 			if(!this.ehCor(this.espacos[movimento.xi][movimento.yi],this.cor_atual)) {
 				System.out.println("movimento ilegal(essa peca nao eh do jogador atual)");
 				return;
+			}
+			
+			Queue queue_atual [] = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
+			if(queue_atual == null) {
+				this.buscaMovimentosObrigatorios();
+			}
+			
+			if(queue_atual != null) {
+				//checar se movimento atual esta na lista
 			}
 			
 			Espaco peca = this.espacos[movimento.xi][movimento.yi];
