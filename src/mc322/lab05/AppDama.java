@@ -5,9 +5,10 @@ public class AppDama {
 		Tabuleiro t = new Tabuleiro();
 		t.iniciaTabuleiroTeste();
 		t.imprimeTabuleiro();
+		System.out.println("\n"+t.cor_atual);
 		System.out.println("\n-----------------------------\n");
 		t.movePeca(7, 0, 4, 3);
 		t.imprimeTabuleiro();
-		System.out.println("yay");
+		System.out.println("\n"+t.cor_atual);
 	}
 }

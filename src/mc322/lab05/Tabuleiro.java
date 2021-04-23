@@ -14,8 +14,8 @@ public class Tabuleiro {
 				espacos[i][j] = new Vazio(i,j);
 			}
 		}
-		Dama d1 = new Dama(0,0,'p');
-		Dama d2 = new Dama(0,0,'b');
+		Dama d1 = new Dama(0,0,'b');
+		Dama d2 = new Dama(0,0,'p');
 		
 		d1.copiaPosicao(espacos[7][0]);
 		espacos[7][0] = d1;
@@ -46,6 +46,10 @@ public class Tabuleiro {
 		System.out.println("a b c d e f g h");
 	}
 
+	private boolean ehCor(Espaco peca,char cor) {
+		return ((peca.icone == 'P' || peca.icone == 'p') ? 'p':'b') == cor;
+	}
+	
 	public void movePeca(int xi,int yi,int xf,int yf) {
 		//checa se esta dentro do tabuleiro
 		if(xi>8 || xi<0 || yi>8 || yi<0 || xf>8 || xf<0 || yf>8 || yf<0) {
@@ -54,8 +58,10 @@ public class Tabuleiro {
 		
 		//checa se posicao inicial contem uma peca
 		if(this.espacos[xi][yi].icone != '-') {
-			if(((this.espacos[xi][yi].icone == 'P' || this.espacos[xi][yi].icone == 'p') ? 'p':'b') != this.cor_atual) {
+			//checa se a peca eh do jogador atual
+			if(!this.ehCor(this.espacos[xi][yi],this.cor_atual)) {
 				System.out.println("movimento ilegal(essa peca nao eh do jogador atual)");
+				return;
 			}
 			
 			
@@ -69,7 +75,7 @@ public class Tabuleiro {
 		}
 		
 		else {
-			System.out.println("movimento ilegal");
+			System.out.println("movimento ilegal(nao ha peca no espaco)");
 		}
 		
 	}

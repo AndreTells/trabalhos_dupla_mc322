@@ -18,11 +18,14 @@ public class Dama extends Espaco{
 		if( coeficiente_angular == 1 || coeficiente_angular == -1){
 			Espaco peca_comida = null;
 			
-			for(int i = this.x+coeficiente_angular; i != xf; i+=coeficiente_angular) {
+			int x_referencia = Math.max(this.x,xf);
+			int y_referencia = x_referencia == this.x ? this.y:yf;
+			
+			for(int i = x_referencia+coeficiente_angular; i !=  Math.min(this.x,xf); i+=coeficiente_angular) {
 				
-				if(tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y].icone != '-') {
-					if(peca_comida == null && (tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y].icone == (this.icone == 'B' ? 'p':'b') || tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y].icone == (this.icone == 'B' ? 'P':'B'))) {
-						peca_comida = tabuleiro.espacos[i][coeficiente_angular*(i-this.x)+this.y];
+				if(tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone != '-') {
+					if(peca_comida == null && (tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (this.icone == 'B' ? 'p':'b') || tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (this.icone == 'B' ? 'P':'B'))) {
+						peca_comida = tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia];
 					}
 					else if(peca_comida != null){
 						System.out.println("movimento ilegal(ha mais de uma peca no caminho)");
@@ -43,6 +46,7 @@ public class Dama extends Espaco{
 			tabuleiro.espacos[transferencia.x][transferencia.y] = transferencia;
 			
 			if(peca_comida !=null) {
+				//como uma peca foi comida, 
 				Vazio espaco_peca_comida = new Vazio(0,0);
 				espaco_peca_comida.copiaPosicao(peca_comida);
 				tabuleiro.espacos[peca_comida.x][peca_comida.y] = espaco_peca_comida;
