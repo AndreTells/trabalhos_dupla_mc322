@@ -1,5 +1,8 @@
 package mc322.lab05;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Dama extends Espaco{
 	Dama(int x, int y, char cor){
 		this.x = x;
@@ -58,4 +61,9 @@ public class Dama extends Espaco{
 		return false;
 	}
 
+	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos, Tabuleiro tabuleiro) {
+		
+		return 0;
+	}
+	
 }

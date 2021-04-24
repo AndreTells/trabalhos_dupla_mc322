@@ -69,7 +69,7 @@ public class Tabuleiro {
 			for(int j=0;j<8;j++) {
 				if(espacos[i][j].icone != '-') {
 					if(this.ehCor(espacos[i][j], cor_atual)) {
-						num_pecas_comidas[index_pecas] = espacos[i][j].buscaMovimentosObrigatorios(movimentos_candidatos);
+						num_pecas_comidas[index_pecas] = espacos[i][j].buscaMovimentosObrigatorios(movimentos_candidatos,this);
 						index_pecas++;
 					}
 				}
@@ -102,14 +102,34 @@ public class Tabuleiro {
 				return false;
 			}
 			
-			/*Queue queue_atual [] = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
-			if(queue_atual == null) {
+			LinkedList<Queue<Movimento>> movimentos_possiveis  = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
+			if(movimentos_possiveis.size() == 0) {
 				this.buscaMovimentosObrigatorios();
 			}
-			
-			if(queue_atual != null) {
+			 
+			if(movimentos_possiveis.size() != 0) {
 				//checar se movimento atual esta na lista
-			}*/
+				boolean movimento_atual_eh_valido = false;
+				for(Queue<Movimento> seq_movimentos : movimentos_possiveis) {
+					if(seq_movimentos.peek().ehIgual(movimento)) {
+						movimento_atual_eh_valido = true;
+						seq_movimentos.poll();
+						
+						if(seq_movimentos.peek() == null) {
+							movimentos_possiveis.remove(seq_movimentos);
+						}	
+					}
+					else {
+						movimentos_possiveis.remove(seq_movimentos);
+					}
+				}
+				
+				if(!movimento_atual_eh_valido) {
+					System.out.println("movimento ilegal(ese movimento nao eh um dos movimentos obrigatorios)");
+					return false;
+				}
+				
+			}
 			
 			Espaco peca = this.espacos[movimento.xi][movimento.yi];
 			if(!peca.move(this, movimento.xf, movimento.yf)) {
@@ -117,7 +137,9 @@ public class Tabuleiro {
 			}
 			
 			//passsa o movimento para o próximo jogador
-			this.cor_atual = this.cor_atual == 'p' ? 'b':'p';
+			if(movimentos_possiveis.size() == 0 ) {
+				this.cor_atual = this.cor_atual == 'p' ? 'b':'p';
+			}
 			return true;
 		}
 		

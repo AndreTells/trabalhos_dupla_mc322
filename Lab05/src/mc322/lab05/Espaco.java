@@ -17,7 +17,7 @@ public class Espaco {
 		return false;
 	}
 
-	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos) {
+	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos,Tabuleiro tabuleiro) {
 		return 0;
 	}
 
