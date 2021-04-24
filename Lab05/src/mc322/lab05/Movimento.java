@@ -6,8 +6,6 @@ public class Movimento {
 	int xf;
 	int yf;
 	
-	
-	
 	Movimento(String movimento) {
 		
 		int[] posicao_inicial = tranduzPosicao(movimento.substring(0, 2));

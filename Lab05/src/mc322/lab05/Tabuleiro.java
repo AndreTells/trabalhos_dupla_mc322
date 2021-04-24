@@ -88,10 +88,11 @@ public class Tabuleiro {
 		}
 	}
 	
-	public void movePeca(Movimento movimento) {
+	public boolean movePeca(Movimento movimento) {
 		//checa se esta dentro do tabuleiro
 		if(movimento.xi>8 || movimento.xi<0 || movimento.yi>8 || movimento.yi<0 || movimento.xf>8 || movimento.xf<0 || movimento.yf>8 || movimento.yf<0) {
 			System.out.println("movimento ilegal(movimento fora do tabuleiro)");
+			return false;
 		}
 		
 		//checa se posicao inicial contem uma peca
@@ -99,7 +100,7 @@ public class Tabuleiro {
 			//checa se a peca eh do jogador atual
 			if(!this.ehCor(this.espacos[movimento.xi][movimento.yi],this.cor_atual)) {
 				System.out.println("movimento ilegal(essa peca nao eh do jogador atual)");
-				return;
+				return false;
 			}
 			
 			Queue queue_atual [] = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
@@ -113,15 +114,17 @@ public class Tabuleiro {
 			
 			Espaco peca = this.espacos[movimento.xi][movimento.yi];
 			if(!peca.move(this, movimento.xf, movimento.yf)) {
-				return;
+				return false;
 			}
 			
 			//passsa o movimento para o próximo jogador
 			this.cor_atual = this.cor_atual == 'p' ? 'b':'p';
+			return true;
 		}
 		
 		else {
 			System.out.println("movimento ilegal(nao ha peca no espaco)");
+			return false;
 		}
 		
 	}
