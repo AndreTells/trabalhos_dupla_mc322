@@ -1,18 +1,19 @@
 package mc322.lab05;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class Tabuleiro {
 	Espaco espacos[][];
 	char cor_atual;
-	private Queue<Movimento> movimentos_obrigatorios_brancas[];
-	private Queue<Movimento> movimentos_obrigatorios_pretas[];
+	private LinkedList<Queue<Movimento>> movimentos_obrigatorios_brancas;
+	private LinkedList<Queue<Movimento>> movimentos_obrigatorios_pretas;
 
 	Tabuleiro(){
 		espacos = new Espaco[8][8];
-		movimentos_obrigatorios_brancas = new Queue [12];
-		movimentos_obrigatorios_pretas = new Queue [12];
+		movimentos_obrigatorios_brancas = new LinkedList<>();
+		movimentos_obrigatorios_pretas = new LinkedList<>();
 		cor_atual = 'b';
 	}
 	
@@ -78,12 +79,10 @@ public class Tabuleiro {
 		Arrays.sort(num_pecas_comidas);
 		int max = num_pecas_comidas[num_pecas_comidas.length-1];
 		
-		int index_resultado = 0;
-		Queue resultado [] = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
+		LinkedList<Queue<Movimento>> resultado = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
 		for(int i  = 0;i<num_pecas_comidas.length;i++) {
 			if(num_pecas_comidas[i] == max) {
-				resultado[index_resultado] = movimentos_candidatos[i];
-				index_resultado++;	
+				resultado.add(movimentos_candidatos[i]);
 			}
 		}
 	}
@@ -103,14 +102,14 @@ public class Tabuleiro {
 				return false;
 			}
 			
-			Queue queue_atual [] = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
+			/*Queue queue_atual [] = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
 			if(queue_atual == null) {
 				this.buscaMovimentosObrigatorios();
 			}
 			
 			if(queue_atual != null) {
 				//checar se movimento atual esta na lista
-			}
+			}*/
 			
 			Espaco peca = this.espacos[movimento.xi][movimento.yi];
 			if(!peca.move(this, movimento.xf, movimento.yf)) {
