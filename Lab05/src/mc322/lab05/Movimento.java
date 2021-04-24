@@ -22,7 +22,7 @@ public class Movimento {
 	
 	private static int[] tranduzPosicao(String pos_s) {
 		int [] pos = new int[2];
-		pos[0] = 6 - ( ((int) pos_s.charAt(1)) - ((int)'1') );
+		pos[0] = 7 - ( ((int) pos_s.charAt(1)) - ((int)'1') );
 		pos[1] = ( ((int) pos_s.charAt(0)) - ((int)'a') );
 		return pos;
 	}
