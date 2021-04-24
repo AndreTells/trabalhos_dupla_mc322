@@ -35,4 +35,7 @@ public class Movimento {
 		return (this.xi == movimento.xi && this.yi == movimento.yi && this.xf == movimento.xf && this.yf == movimento.yf);
 	}
 
+	boolean ehDentroDoTabuleiro(){
+		return !(xi>8 || xi<0 || yi>8 || yi<0 || xf>8 || xf<0 || yf>8 || yf<0);
+	}
 }

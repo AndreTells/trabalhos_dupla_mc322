@@ -61,9 +61,53 @@ public class Dama extends Espaco{
 		return false;
 	}
 
-	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos, Tabuleiro tabuleiro) {
+	//0 --> nao ha peca comida
+	//1 --> ha peca comida
+	//2 --> movimento ilegal
+	int haPecaComida(Movimento movimento, Tabuleiro tabuleiro) {
+		int coeficiente_angular = (movimento.yf-movimento.yi)/(movimento.xf-movimento.xi);
+		int x_referencia = coeficiente_angular == 1 ? Math.min(movimento.xi,movimento.xf) : Math.max(movimento.xi,movimento.xf);
+		int y_referencia = x_referencia == movimento.xi ? movimento.yi:movimento.yf;
+		int resultado = 0;
 		
-		return 0;
+		for(int i = x_referencia+coeficiente_angular; i !=  (x_referencia == movimento.xi ? movimento.xf:movimento.xi); i+=coeficiente_angular) {
+			if(tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone != '-') {
+				if(resultado == 0 && (tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (tabuleiro.espacos[movimento.xi][movimento.yi].icone == 'B' ? 'p':'b') ||
+						tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (tabuleiro.espacos[movimento.xi][movimento.yi].icone == 'B' ? 'P':'B'))) {
+					resultado = 1;
+				}
+				else if(resultado != 0){
+					resultado = 2;
+					break;
+				}
+				else {
+					resultado = 2;
+					break;
+				}
+			}
+		}
+		
+		return resultado;
 	}
+	
+	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos, Tabuleiro tabuleiro) {
+		LinkedList<Queue<Movimento>> candidatos_lista = new LinkedList<Queue<Movimento>>();
+		int max_pecas_comidas = 0;
+		
+		
+		
+		
+		lista_movimentos.addAll(candidatos_lista);
+		return max_pecas_comidas;
+	}
+	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos, Tabuleiro tabuleiro, Queue<Movimento> movimentos_iniciais) {
+		LinkedList<Queue<Movimento>> candidatos_lista = new LinkedList<Queue<Movimento>>();
+			int max_pecas_comidas = 0;
+			
+			
+			lista_movimentos.addAll(candidatos_lista);
+		return max_pecas_comidas;
+	}
+	
 	
 }

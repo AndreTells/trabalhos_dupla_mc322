@@ -89,7 +89,7 @@ public class Tabuleiro {
 	
 	public boolean movePeca(Movimento movimento) {
 		//checa se esta dentro do tabuleiro
-		if(movimento.xi>8 || movimento.xi<0 || movimento.yi>8 || movimento.yi<0 || movimento.xf>8 || movimento.xf<0 || movimento.yf>8 || movimento.yf<0) {
+		if(!movimento.ehDentroDoTabuleiro()) {
 			System.out.println("movimento ilegal(movimento fora do tabuleiro)");
 			return false;
 		}
