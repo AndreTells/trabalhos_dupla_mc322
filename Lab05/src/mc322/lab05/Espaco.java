@@ -3,7 +3,7 @@ package mc322.lab05;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Espaco {
+public class Espaco implements Cloneable{
 	int x;
 	int y;
 	char icone;
@@ -17,8 +17,11 @@ public class Espaco {
 		return false;
 	}
 
-	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos,Tabuleiro tabuleiro) {
+	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos,Tabuleiro tabuleiro,int max) {
 		return 0;
 	}
 
+	protected Object clone() throws CloneNotSupportedException {
+		 return super.clone();
+	}
 }

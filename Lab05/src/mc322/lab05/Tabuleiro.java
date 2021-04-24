@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Tabuleiro {
+public class Tabuleiro implements Cloneable{
 	Espaco espacos[][];
 	char cor_atual;
 	private LinkedList<Queue<Movimento>> movimentos_obrigatorios_brancas;
@@ -16,7 +16,7 @@ public class Tabuleiro {
 		movimentos_obrigatorios_pretas = new LinkedList<>();
 		cor_atual = 'b';
 	}
-	
+
 	void iniciaTabuleiroTeste() {
 		for(int i=0;i<8;i++) {
 			for(int j=0;j<8;j++) {
@@ -25,12 +25,20 @@ public class Tabuleiro {
 		}
 		Dama d1 = new Dama(0,0,'b');
 		Dama d2 = new Dama(0,0,'p');
+		Dama d3 = new Dama(0,0,'p');
+		Dama d4 = new Dama(0,0,'p');
 		
 		d1.copiaPosicao(espacos[0][0]);
 		espacos[0][0] = d1;
 		
 		d2.copiaPosicao(espacos[1][1]);
 		espacos[1][1] = d2;
+		
+		d3.copiaPosicao(espacos[3][3]);
+		espacos[3][3] = d3;
+		
+		d4.copiaPosicao(espacos[5][3]);
+		espacos[5][3] = d4;
 	}
 	
 	public String criaString() {
@@ -60,31 +68,19 @@ public class Tabuleiro {
 	}
 	
 	private void buscaMovimentosObrigatorios() {
-		int index_pecas = 0;
-		int num_pecas_comidas[] = new int[12];
-		//(cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas)
-		LinkedList<Queue<Movimento>> movimentos_candidatos = new LinkedList<>();
+		LinkedList<Queue<Movimento>> resultado = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
 		
+		int max_pecas_comidas = 0;
 		for(int i=0;i<8;i++) {
 			for(int j=0;j<8;j++) {
 				if(espacos[i][j].icone != '-') {
 					if(this.ehCor(espacos[i][j], cor_atual)) {
-						num_pecas_comidas[index_pecas] = espacos[i][j].buscaMovimentosObrigatorios(movimentos_candidatos,this);
-						index_pecas++;
+						max_pecas_comidas = espacos[i][j].buscaMovimentosObrigatorios(resultado,this,max_pecas_comidas);
 					}
 				}
 			}
 		}
-		
-		Arrays.sort(num_pecas_comidas);
-		int max = num_pecas_comidas[num_pecas_comidas.length-1];
-		
-		LinkedList<Queue<Movimento>> resultado = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
-		for(int i  = 0;i<num_pecas_comidas.length;i++) {
-			if(num_pecas_comidas[i] == max) {
-				resultado.add(movimentos_candidatos.get(i));
-			}
-		}
+		System.out.println("numero de pecas comidas: "+max_pecas_comidas);
 	}
 	
 	public boolean movePeca(Movimento movimento) {
@@ -151,10 +147,7 @@ public class Tabuleiro {
 	}
 
 	public Tabuleiro clone() {
-		Tabuleiro tabuleiro_clone = new Tabuleiro();
-		tabuleiro_clone.espacos = this.espacos;
-		tabuleiro_clone.cor_atual = this.cor_atual;
 		
-		return tabuleiro_clone;
+		return null;
 	}
 }

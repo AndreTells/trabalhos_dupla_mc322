@@ -3,11 +3,15 @@ package mc322.lab05;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Dama extends Espaco{
+public class Dama extends Espaco implements Cloneable{
 	Dama(int x, int y, char cor){
 		this.x = x;
 		this.y = y;
 		this.icone = cor == 'p' ? 'P':'B';
+	}
+	
+	protected Object clone() throws CloneNotSupportedException {
+		 return super.clone();
 	}
 	
 	boolean move(Tabuleiro tabuleiro,int xf, int yf) {
@@ -15,6 +19,9 @@ public class Dama extends Espaco{
 		if(tabuleiro.espacos[xf][yf].icone != '-') {
 			System.out.println("movimento ilegal(posicao final nao esta livre)");
 			return false;
+		}
+		if(xf-this.x == 0) {
+			System.out.println("movimento ilegal(nao segue as regras de mover-se apenas pelas diagonais)");
 		}
 		
 		int coeficiente_angular = (yf-this.y)/(xf-this.x);
@@ -62,12 +69,13 @@ public class Dama extends Espaco{
 	}
 
 	
-	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos, Tabuleiro tabuleiro) {
-		LinkedList<Queue<Movimento>> candidatos_lista = new LinkedList<Queue<Movimento>>();
-		int max_pecas_comidas = 0;
+	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos, Tabuleiro tabuleiro,int max_pecas_comidas) {
 		int coeficientes_angulares[] = {1,-1};
 		for(int i=0;i<2;i++) {
 			Movimento movimento_positivo = new Movimento(this.x,this.y,this.x,this.y);
+			movimento_positivo.xf +=1;
+			movimento_positivo.yf +=coeficientes_angulares[i];
+			
 			while(movimento_positivo.ehDentroDoTabuleiro()) {
 				
 				int ha_peca_comida = movimento_positivo.haPecaComida(tabuleiro);
@@ -87,13 +95,14 @@ public class Dama extends Espaco{
 					//adiciona pecas comidas nos mlhores caminhos sub sequentes
 					num_pecas_comidas+=peca_simulada.buscaMovimentosObrigatorios(subsequencia_movimentos, tabuleiro_simulado, movimento_inicial);
 					
+					tabuleiro.imprimeTabuleiro();
 					if(num_pecas_comidas > max_pecas_comidas) {
 						max_pecas_comidas = num_pecas_comidas;
-						candidatos_lista = new LinkedList<Queue<Movimento>>();
-						candidatos_lista.addAll(subsequencia_movimentos);
+						lista_movimentos = new LinkedList<Queue<Movimento>>();
+						lista_movimentos.addAll(subsequencia_movimentos);
 					}
 					else if(num_pecas_comidas == max_pecas_comidas){
-						candidatos_lista.addAll(subsequencia_movimentos);
+						lista_movimentos.addAll(subsequencia_movimentos);
 					}
 					
 				}
@@ -103,10 +112,15 @@ public class Dama extends Espaco{
 				
 				movimento_positivo.xf +=1;
 				movimento_positivo.yf +=coeficientes_angulares[i];
+			
+				
 			}
 			
 			
 			Movimento movimento_negativo = new Movimento(this.x,this.y,this.x,this.y);
+			movimento_negativo.xf -=1;
+			movimento_negativo.yf -=coeficientes_angulares[i];
+			
 			while(movimento_negativo.ehDentroDoTabuleiro()) {
 				
 				int ha_peca_comida = movimento_negativo.haPecaComida(tabuleiro);
@@ -125,13 +139,14 @@ public class Dama extends Espaco{
 					//adiciona pecas comidas nos mlhores caminhos sub sequentes
 					num_pecas_comidas+=peca_simulada.buscaMovimentosObrigatorios(subsequencia_movimentos, tabuleiro_simulado, movimento_inicial);
 					
+					tabuleiro.imprimeTabuleiro();
 					if(num_pecas_comidas > max_pecas_comidas) {
 						max_pecas_comidas = num_pecas_comidas;
-						candidatos_lista = new LinkedList<Queue<Movimento>>();
-						candidatos_lista.addAll(subsequencia_movimentos);
+						lista_movimentos = new LinkedList<Queue<Movimento>>();
+						lista_movimentos.addAll(subsequencia_movimentos);
 					}
 					else if(num_pecas_comidas == max_pecas_comidas){
-						candidatos_lista.addAll(subsequencia_movimentos);
+						lista_movimentos.addAll(subsequencia_movimentos);
 					}
 					
 				}
@@ -144,16 +159,17 @@ public class Dama extends Espaco{
 			}
 		}
 		
-		
-		lista_movimentos.addAll(candidatos_lista);
 		return max_pecas_comidas;
 	}
+	
 	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos, Tabuleiro tabuleiro, Queue<Movimento> movimentos_anteriores) {
 		LinkedList<Queue<Movimento>> candidatos_lista = new LinkedList<Queue<Movimento>>();
 		int max_pecas_comidas = 0;
 		int coeficientes_angulares[] = {1,-1};
 		for(int i=0;i<2;i++) {
 			Movimento movimento_positivo = new Movimento(this.x,this.y,this.x,this.y);
+			movimento_positivo.xf +=1;
+			movimento_positivo.yf +=coeficientes_angulares[i];
 			while(movimento_positivo.ehDentroDoTabuleiro()) {
 				
 				int ha_peca_comida = movimento_positivo.haPecaComida(tabuleiro);
@@ -173,6 +189,8 @@ public class Dama extends Espaco{
 					
 					//adiciona pecas comidas nos mlhores caminhos sub sequentes
 					num_pecas_comidas+=peca_simulada.buscaMovimentosObrigatorios(subsequencia_movimentos, tabuleiro_simulado, movimento_inicial);
+					
+					tabuleiro.imprimeTabuleiro();
 					
 					if(num_pecas_comidas > max_pecas_comidas) {
 						max_pecas_comidas = num_pecas_comidas;
@@ -194,6 +212,9 @@ public class Dama extends Espaco{
 			
 			
 			Movimento movimento_negativo = new Movimento(this.x,this.y,this.x,this.y);
+			movimento_negativo.xf -=1;
+			movimento_negativo.yf -=coeficientes_angulares[i];
+			
 			while(movimento_negativo.ehDentroDoTabuleiro()) {
 				
 				int ha_peca_comida = movimento_negativo.haPecaComida(tabuleiro);
@@ -213,6 +234,7 @@ public class Dama extends Espaco{
 					//adiciona pecas comidas nos mlhores caminhos sub sequentes
 					num_pecas_comidas+=peca_simulada.buscaMovimentosObrigatorios(subsequencia_movimentos, tabuleiro_simulado, movimento_inicial);
 					
+					tabuleiro.imprimeTabuleiro();
 					if(num_pecas_comidas > max_pecas_comidas) {
 						max_pecas_comidas = num_pecas_comidas;
 						candidatos_lista = new LinkedList<Queue<Movimento>>();
