@@ -52,6 +52,13 @@ public class Peca extends Espaco{
 				espaco_peca_comida.copiaPosicao(peca_comida);
 				tabuleiro.espacos[peca_comida.x][peca_comida.y] = espaco_peca_comida;
 				tabuleiro.cor_atual = this.icone == 'P' ? 'b':'p';
+				
+				if(tabuleiro.cor_atual == 'p') {
+					tabuleiro.num_pecas_brancas-=1;
+				}
+				else {
+					tabuleiro.num_pecas_pretas-=1;
+				}
 			}
 			return true;
 			
@@ -61,4 +68,8 @@ public class Peca extends Espaco{
 		return false;
 	}
 
+	boolean podeComerMais(Tabuleiro tabuleiro) {
+		//checa se essa peca pode comer alguma outro no estado atual do tabuleiro
+		return false;
+	}
 }

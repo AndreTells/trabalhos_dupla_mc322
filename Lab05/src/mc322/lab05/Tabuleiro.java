@@ -6,14 +6,34 @@ import java.util.Queue;
 
 public class Tabuleiro implements Cloneable{
 	Espaco espacos[][];
+	int num_pecas_brancas;
+	int num_pecas_pretas;
 	char cor_atual;
-	private LinkedList<Queue<Movimento>> movimentos_obrigatorios_brancas;
-	private LinkedList<Queue<Movimento>> movimentos_obrigatorios_pretas;
-
 	Tabuleiro(){
 		espacos = new Espaco[8][8];
-		movimentos_obrigatorios_brancas = new LinkedList<>();
-		movimentos_obrigatorios_pretas = new LinkedList<>();
+		char tabuleiro_string[][]= new char[8][8];
+		tabuleiro_string[0] ="-p-p-p-p".toCharArray();
+		tabuleiro_string[1] ="p-p-p-p-".toCharArray();
+		tabuleiro_string[2] ="-p-p-p-p".toCharArray();
+		tabuleiro_string[3] ="--------".toCharArray();
+		tabuleiro_string[4] ="--------".toCharArray();
+		tabuleiro_string[5] ="b-b-b-b-".toCharArray();
+		tabuleiro_string[6] ="-b-b-b-b".toCharArray();
+		tabuleiro_string[7] ="b-b-b-b-".toCharArray();
+		
+		for(int i=0;i<espacos.length;i++) {
+			for(int j =0;j<espacos[0].length; j++) {
+				if(tabuleiro_string[i][j] != '-') {
+					espacos[i][j] = new Peca(i,j,tabuleiro_string[i][j]);
+				}
+				else {
+					espacos[i][j] = new Vazio(i,j);
+				}
+			}
+		}
+
+		num_pecas_brancas = 12;
+		num_pecas_pretas = 12;
 		cor_atual = 'b';
 	}
 
@@ -67,21 +87,6 @@ public class Tabuleiro implements Cloneable{
 		return ((peca.icone == 'P' || peca.icone == 'p') ? 'p':'b') == cor;
 	}
 	
-	private void buscaMovimentosObrigatorios() {
-		LinkedList<Queue<Movimento>> resultado = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
-		
-		int max_pecas_comidas = 0;
-		for(int i=0;i<8;i++) {
-			for(int j=0;j<8;j++) {
-				if(espacos[i][j].icone != '-') {
-					if(this.ehCor(espacos[i][j], cor_atual)) {
-						max_pecas_comidas = espacos[i][j].buscaMovimentosObrigatorios(resultado,this,max_pecas_comidas);
-					}
-				}
-			}
-		}
-		System.out.println("numero de pecas comidas: "+max_pecas_comidas);
-	}
 	
 	public boolean movePeca(Movimento movimento) {
 		//checa se esta dentro do tabuleiro
@@ -98,44 +103,19 @@ public class Tabuleiro implements Cloneable{
 				return false;
 			}
 			
-			LinkedList<Queue<Movimento>> movimentos_possiveis  = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
-			/*if(movimentos_possiveis.size() == 0) {
-				this.buscaMovimentosObrigatorios();
-			}
-			 
-			if(movimentos_possiveis.size() != 0) {
-				//checar se movimento atual esta na lista
-				boolean movimento_atual_eh_valido = false;
-				for(Queue<Movimento> seq_movimentos : movimentos_possiveis) {
-					if(seq_movimentos.peek().ehIgual(movimento)) {
-						movimento_atual_eh_valido = true;
-						seq_movimentos.poll();
-						
-						if(seq_movimentos.peek() == null) {
-							movimentos_possiveis.remove(seq_movimentos);
-						}	
-					}
-					else {
-						movimentos_possiveis.remove(seq_movimentos);
-					}
-				}
-				
-				if(!movimento_atual_eh_valido) {
-					System.out.println("movimento ilegal(ese movimento nao eh um dos movimentos obrigatorios)");
-					return false;
-				}
-				
-			}*/
-			
+			int num_inicial_pecas_inimigas = (this.cor_atual == 'p'? this.num_pecas_brancas:this.num_pecas_pretas);
 			Espaco peca = this.espacos[movimento.xi][movimento.yi];
 			if(!peca.move(this, movimento.xf, movimento.yf)) {
 				return false;
 			}
+			int num_final_pecas_inimigas = (this.cor_atual == 'p'? this.num_pecas_brancas:this.num_pecas_pretas);
 			
-			//passsa o movimento para o próximo jogador
-			if(movimentos_possiveis.size() == 0 ) {
+			
+			//passsa o movimento para o próximo jogador se a peca movida nao puder comer mais nenhuma peca
+			if(num_inicial_pecas_inimigas == num_final_pecas_inimigas || !peca.podeComerMais()) {
 				this.cor_atual = this.cor_atual == 'p' ? 'b':'p';
 			}
+			
 			return true;
 		}
 		
@@ -144,30 +124,5 @@ public class Tabuleiro implements Cloneable{
 			return false;
 		}
 		
-	}
-
-	public Tabuleiro clone() {
-		Tabuleiro tabuleiro = new Tabuleiro();
-		tabuleiro.cor_atual = this.cor_atual;
-		tabuleiro.espacos = new Espaco[8][8];
-		for(int i=0;i<espacos.length;i++) {
-			for(int j =0;j<espacos[0].length; j++) {
-				if(this.espacos[i][j].icone == 'p'||this.espacos[i][j].icone == 'b') {
-					tabuleiro.espacos[i][j] = new Peca(0,0,this.espacos[i][j].icone);
-					tabuleiro.espacos[i][j].copiaPosicao(this.espacos[i][j]);
-				}
-				else if(this.espacos[i][j].icone == 'P'||this.espacos[i][j].icone == 'B'){
-					tabuleiro.espacos[i][j] = new Dama(0,0,(this.espacos[i][j].icone == 'P'?'p':'b'));
-					tabuleiro.espacos[i][j].copiaPosicao(this.espacos[i][j]);
-				}
-				else {
-					tabuleiro.espacos[i][j] = new Vazio(0,0);
-					tabuleiro.espacos[i][j].copiaPosicao(this.espacos[i][j]);
-				}
-				
-			}
-		}
-		
-		return tabuleiro;
 	}
 }

@@ -16,9 +16,9 @@ public class Espaco {
 	boolean move(Tabuleiro tabuleiro,int xf, int yf) {
 		return false;
 	}
-
-	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos,Tabuleiro tabuleiro,int max) {
-		return 0;
+	
+	boolean podeComerMais() {
+		return false;
 	}
 
 }

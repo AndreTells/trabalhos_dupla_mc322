@@ -38,7 +38,7 @@ public class Movimento {
 	boolean ehDentroDoTabuleiro(){
 		return !(xi>=8 || xi<0 || yi>=8 || yi<0 || xf>=8 || xf<0 || yf>=8 || yf<0);
 	}
-	
+
 	//0 --> nao ha peca comida
 	//1 --> ha peca comida
 	//2 --> movimento ilegal
@@ -67,5 +67,4 @@ public class Movimento {
 			
 		return resultado;
 	}
-
 }
