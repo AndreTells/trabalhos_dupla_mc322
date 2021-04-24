@@ -99,7 +99,7 @@ public class Tabuleiro implements Cloneable{
 			}
 			
 			LinkedList<Queue<Movimento>> movimentos_possiveis  = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
-			if(movimentos_possiveis.size() == 0) {
+			/*if(movimentos_possiveis.size() == 0) {
 				this.buscaMovimentosObrigatorios();
 			}
 			 
@@ -125,7 +125,7 @@ public class Tabuleiro implements Cloneable{
 					return false;
 				}
 				
-			}
+			}*/
 			
 			Espaco peca = this.espacos[movimento.xi][movimento.yi];
 			if(!peca.move(this, movimento.xf, movimento.yf)) {
@@ -147,7 +147,27 @@ public class Tabuleiro implements Cloneable{
 	}
 
 	public Tabuleiro clone() {
+		Tabuleiro tabuleiro = new Tabuleiro();
+		tabuleiro.cor_atual = this.cor_atual;
+		tabuleiro.espacos = new Espaco[8][8];
+		for(int i=0;i<espacos.length;i++) {
+			for(int j =0;j<espacos[0].length; j++) {
+				if(this.espacos[i][j].icone == 'p'||this.espacos[i][j].icone == 'b') {
+					tabuleiro.espacos[i][j] = new Peca(0,0,this.espacos[i][j].icone);
+					tabuleiro.espacos[i][j].copiaPosicao(this.espacos[i][j]);
+				}
+				else if(this.espacos[i][j].icone == 'P'||this.espacos[i][j].icone == 'B'){
+					tabuleiro.espacos[i][j] = new Dama(0,0,(this.espacos[i][j].icone == 'P'?'p':'b'));
+					tabuleiro.espacos[i][j].copiaPosicao(this.espacos[i][j]);
+				}
+				else {
+					tabuleiro.espacos[i][j] = new Vazio(0,0);
+					tabuleiro.espacos[i][j].copiaPosicao(this.espacos[i][j]);
+				}
+				
+			}
+		}
 		
-		return null;
+		return tabuleiro;
 	}
 }

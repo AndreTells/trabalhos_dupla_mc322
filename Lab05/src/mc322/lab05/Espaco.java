@@ -3,7 +3,7 @@ package mc322.lab05;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Espaco implements Cloneable{
+public class Espaco {
 	int x;
 	int y;
 	char icone;
@@ -21,7 +21,4 @@ public class Espaco implements Cloneable{
 		return 0;
 	}
 
-	protected Object clone() throws CloneNotSupportedException {
-		 return super.clone();
-	}
 }

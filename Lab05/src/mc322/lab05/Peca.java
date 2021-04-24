@@ -1,14 +1,10 @@
 package mc322.lab05;
 
-public class Peca extends Espaco implements Cloneable{
+public class Peca extends Espaco{
 	Peca(int x, int y, char cor){
 		this.x = x;
 		this.y = y;
 		this.icone = cor;
-	}
-	
-	protected Object clone() throws CloneNotSupportedException {
-		 return super.clone();
 	}
 	
 	boolean move(Tabuleiro tabuleiro,int xf, int yf) {
