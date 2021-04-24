@@ -38,4 +38,34 @@ public class Movimento {
 	boolean ehDentroDoTabuleiro(){
 		return !(xi>8 || xi<0 || yi>8 || yi<0 || xf>8 || xf<0 || yf>8 || yf<0);
 	}
+	
+	//0 --> nao ha peca comida
+	//1 --> ha peca comida
+	//2 --> movimento ilegal
+	int haPecaComida(Tabuleiro tabuleiro) {
+		int coeficiente_angular = (yf-yi)/(xf-xi);
+		int x_referencia = coeficiente_angular == 1 ? Math.min(xi,xf) : Math.max(xi,xf);
+		int y_referencia = x_referencia == xi ? yi:yf;
+		int resultado = 0;
+		
+		for(int i = x_referencia+coeficiente_angular; i !=  (x_referencia == xi ? xf:xi); i+=coeficiente_angular) {
+			if(tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone != '-') {
+				if(resultado == 0 && (tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (tabuleiro.espacos[xi][yi].icone == 'B' ? 'p':'b') ||
+					tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (tabuleiro.espacos[xi][yi].icone == 'B' ? 'P':'B'))) {
+					resultado = 1;
+				}
+				else if(resultado != 0){
+					resultado = 2;
+					break;
+				}
+				else {
+					resultado = 2;
+					break;
+				}
+			}
+		}
+			
+		return resultado;
+	}
+
 }

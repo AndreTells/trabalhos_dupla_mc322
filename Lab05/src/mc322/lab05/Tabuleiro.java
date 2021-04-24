@@ -149,5 +149,12 @@ public class Tabuleiro {
 		}
 		
 	}
-	
+
+	public Tabuleiro clone() {
+		Tabuleiro tabuleiro_clone = new Tabuleiro();
+		tabuleiro_clone.espacos = this.espacos;
+		tabuleiro_clone.cor_atual = this.cor_atual;
+		
+		return tabuleiro_clone;
+	}
 }
