@@ -17,7 +17,13 @@ public class Movimento {
 		this.xf = posicao_final[0];
 		this.yf = posicao_final[1];
 	}
-	
+	Movimento(int xi,int yi, int xf, int yf){
+		this.xi = xi;
+		this.yi = yi;
+		this.xf = xf;
+		this.yf = yf;
+	}
+
 	private static int[] tranduzPosicao(String pos_s) {
 		int [] pos = new int[2];
 		pos[0] = 7 - ( ((int) pos_s.charAt(1)) - ((int)'1') );

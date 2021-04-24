@@ -1,5 +1,6 @@
 package mc322.lab05;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class Espaco {
@@ -16,7 +17,7 @@ public class Espaco {
 		return false;
 	}
 
-	int buscaMovimentosObrigatorios(Queue<Movimento> movimentos) {
+	int buscaMovimentosObrigatorios(LinkedList<Queue<Movimento>> lista_movimentos) {
 		return 0;
 	}
 

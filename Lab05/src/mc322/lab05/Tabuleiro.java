@@ -63,13 +63,13 @@ public class Tabuleiro {
 		int index_pecas = 0;
 		int num_pecas_comidas[] = new int[12];
 		//(cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas)
-		Queue movimentos_candidatos []= new Queue[12];
+		LinkedList<Queue<Movimento>> movimentos_candidatos = new LinkedList<>();
+		
 		for(int i=0;i<8;i++) {
 			for(int j=0;j<8;j++) {
 				if(espacos[i][j].icone != '-') {
 					if(this.ehCor(espacos[i][j], cor_atual)) {
-						movimentos_candidatos[index_pecas] = null;
-						num_pecas_comidas[index_pecas] = espacos[i][j].buscaMovimentosObrigatorios(movimentos_candidatos[index_pecas]);
+						num_pecas_comidas[index_pecas] = espacos[i][j].buscaMovimentosObrigatorios(movimentos_candidatos);
 						index_pecas++;
 					}
 				}
@@ -82,7 +82,7 @@ public class Tabuleiro {
 		LinkedList<Queue<Movimento>> resultado = (cor_atual=='p'? movimentos_obrigatorios_pretas : movimentos_obrigatorios_brancas);
 		for(int i  = 0;i<num_pecas_comidas.length;i++) {
 			if(num_pecas_comidas[i] == max) {
-				resultado.add(movimentos_candidatos[i]);
+				resultado.add(movimentos_candidatos.get(i));
 			}
 		}
 	}
