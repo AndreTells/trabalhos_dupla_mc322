@@ -2,7 +2,7 @@ package mc322.lab05;
 
 public class AppDama {
 	static String[] executaJogo(String caminho_arquivo){
-		CSVReader csv = new CSVReader();
+		CSVHandling csv = new CSVHandling();
  		csv.setDataSource(caminho_arquivo);
 		String movimentos_string [] = csv.requestCommands();
 		
@@ -30,10 +30,26 @@ public class AppDama {
 		return estados_tabuleiro;
 	}
 
-	public static void main(String Args[]) {
-		Tabuleiro t = new Tabuleiro();
+	static String[] formataParaArquivo(String tabuleiro_s) {
+		String resultado []= new String[64];
+		for(int i=7;i>=0;i--) {
+			for(int j=0;j<8;j++) {
+				char horizontal = (char)(j+'a');
+				char vertical = (char)('8'-i);
+				char icone_na_posicao = tabuleiro_s.charAt((i*8) + j) =='-' ? '_':tabuleiro_s.charAt((i*8) + j);
+				resultado[(7-i)*8 + j] = ""+horizontal+vertical+icone_na_posicao;
+			}
+		}
 		
-		t.imprimeTabuleiro();
+		return resultado;
+	}
+	
+	public static void main(String Args[]) {
+		String[] tabuleiros = executaJogo(Args[0]);
+		String[] tabuleiro_final_formatado = formataParaArquivo(tabuleiros[tabuleiros.length-1]);
+		CSVHandling csv = new CSVHandling();
+		csv.setDataExport(Args[1]);
+		csv.exportState(tabuleiro_final_formatado);
 	}
 
 }
