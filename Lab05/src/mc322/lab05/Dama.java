@@ -107,8 +107,8 @@ public class Dama extends Espaco {
 				else if(ha_peca_comida == 2) {
 					break;
 				}
-				movimento_negativo.xf +=1;
-				movimento_negativo.yf +=coeficientes_angulares[i];
+				movimento_negativo.xf -=1;
+				movimento_negativo.yf -=coeficientes_angulares[i];
 			}
 		}
 		

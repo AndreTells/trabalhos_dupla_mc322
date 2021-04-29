@@ -13,6 +13,10 @@ public class Peca extends Espaco{
 			System.out.println("movimento ilegal(posicao final nao esta livre)");
 			return false;
 		}
+		if(xf-this.x == 0 || yf-this.y == 0) {
+			System.out.println("movimento ilegal(nao segue as regras de mover-se apenas pelas diagonais)");
+			return false;
+		}
 		
 		int coeficiente_angular = (yf-this.y)/(xf-this.x);
 		if( coeficiente_angular == 1 || coeficiente_angular == -1){
@@ -22,7 +26,6 @@ public class Peca extends Espaco{
 			int y_referencia = x_referencia == this.x ? this.y:yf;
 			
 			for(int i = x_referencia+coeficiente_angular; i !=  (x_referencia == this.x ? xf:this.x); i+=coeficiente_angular) {
-				System.out.println(i);
 				
 				if(tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone != '-') {
 					if(peca_comida == null && (tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (this.icone == 'B' ? 'p':'b') || tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (this.icone == 'B' ? 'P':'B'))) {
@@ -51,7 +54,7 @@ public class Peca extends Espaco{
 				Vazio espaco_peca_comida = new Vazio(0,0);
 				espaco_peca_comida.copiaPosicao(peca_comida);
 				tabuleiro.espacos[peca_comida.x][peca_comida.y] = espaco_peca_comida;
-				tabuleiro.cor_atual = this.icone == 'P' ? 'b':'p';
+				tabuleiro.cor_atual = this.icone == 'p' ? 'b':'p';
 				
 				if(tabuleiro.cor_atual == 'p') {
 					tabuleiro.num_pecas_brancas-=1;
@@ -69,7 +72,45 @@ public class Peca extends Espaco{
 	}
 
 	boolean podeComerMais(Tabuleiro tabuleiro) {
-		//checa se essa peca pode comer alguma outro no estado atual do tabuleiro
+		int coeficientes_angulares[] = {1,-1};
+		for(int i=0;i<2;i++) {
+			Movimento movimento_positivo = new Movimento(this.x,this.y,this.x,this.y);
+			movimento_positivo.xf +=1;
+			movimento_positivo.yf +=coeficientes_angulares[i];
+		
+			while(movimento_positivo.ehDentroDoTabuleiro()) {
+
+				int ha_peca_comida = movimento_positivo.haPecaComida(tabuleiro);
+				
+				if(ha_peca_comida == 1) {
+					return true;
+				}
+				else if(ha_peca_comida == 2) {
+					break;
+				}
+				movimento_positivo.xf +=1;
+				movimento_positivo.yf +=coeficientes_angulares[i];
+			}
+			
+			Movimento movimento_negativo = new Movimento(this.x,this.y,this.x,this.y);
+			movimento_negativo.xf -=1;
+			movimento_negativo.yf -=coeficientes_angulares[i];
+			
+			while(movimento_negativo.ehDentroDoTabuleiro()) {
+
+				int ha_peca_comida = movimento_negativo.haPecaComida(tabuleiro);
+				
+				if(ha_peca_comida == 1) {
+					return true;
+				}
+				else if(ha_peca_comida == 2) {
+					break;
+				}
+				movimento_negativo.xf -=1;
+				movimento_negativo.yf -=coeficientes_angulares[i];
+			}
+		}
+		
 		return false;
 	}
 }
