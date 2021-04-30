@@ -1,14 +1,8 @@
 package mc322.lab05;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class Tabuleiro implements Cloneable{
-	Espaco espacos[][];
-	int num_pecas_brancas;
-	int num_pecas_pretas;
-	char cor_atual;
+	private Espaco espacos[][];
+	
 	Tabuleiro(){
 		espacos = new Espaco[8][8];
 		char tabuleiro_string[][]= new char[8][8];
@@ -31,10 +25,6 @@ public class Tabuleiro implements Cloneable{
 				}
 			}
 		}
-
-		num_pecas_brancas = 12;
-		num_pecas_pretas = 12;
-		cor_atual = 'b';
 	}
 
 	void iniciaTabuleiroTeste() {
@@ -65,7 +55,7 @@ public class Tabuleiro implements Cloneable{
 		String tabuleiro_string = "";
 		for(int i=0;i<espacos.length;i++) {
 			for(int j =0;j<espacos[0].length; j++) {
-				tabuleiro_string+=espacos[i][j].icone;
+				tabuleiro_string+=espacos[i][j].pegaIcone();
 			}
 			tabuleiro_string+='\n';
 		}
@@ -76,51 +66,51 @@ public class Tabuleiro implements Cloneable{
 		for(int i=0;i<espacos.length;i++) {
 			System.out.print(8-i);
 			for(int j =0;j<espacos[0].length; j++) {
-				System.out.print(" "+espacos[i][j].icone);
+				System.out.print(" "+espacos[i][j].pegaIcone());
 			}
 			System.out.print("\n");
 		}
 		System.out.println("  a b c d e f g h");
 	}
 
-	private boolean ehCor(Espaco peca,char cor) {
-		return ((peca.icone == 'P' || peca.icone == 'p') ? 'p':'b') == cor;
+	public void removePeca(int x, int y) {
+		Vazio espaco_peca_comida = new Vazio(x,y);
+		espacos[x][y] = espaco_peca_comida;
 	}
-	
+
+	public Espaco pegaPeca(int x, int y) {
+		return espacos[x][y];
+	}
 	
 	public boolean movePeca(Movimento movimento) {
 		//checa se esta dentro do tabuleiro
 		if(!movimento.ehDentroDoTabuleiro()) {
-			System.out.println("movimento ilegal(movimento fora do tabuleiro)");
 			return false;
 		}
 		
+		int inicio[] = movimento.pegaPosicaoInicial();
+		int destino[] = movimento.pegaPosicaoFinal();
+		
 		//checa se posicao inicial contem uma peca
-		if(this.espacos[movimento.xi][movimento.yi].icone != '-') {
-			//checa se a peca eh do jogador atual
-			if(!this.ehCor(this.espacos[movimento.xi][movimento.yi],this.cor_atual)) {
-				System.out.println("movimento ilegal(essa peca nao eh do jogador atual)");
+		if(this.espacos[inicio[0]][inicio[1]].icone != '-') {
+			
+			Espaco peca = this.espacos[inicio[0]][inicio[1]];
+			
+			if(!peca.move(this, destino[0], destino[1])) {
 				return false;
 			}
 			
-			int num_inicial_pecas_inimigas = (this.cor_atual == 'p'? this.num_pecas_brancas:this.num_pecas_pretas);
-			Espaco peca = this.espacos[movimento.xi][movimento.yi];
-			if(!peca.move(this, movimento.xf, movimento.yf)) {
-				return false;
-			}
-			int num_final_pecas_inimigas = (this.cor_atual == 'p'? this.num_pecas_brancas:this.num_pecas_pretas);
+			Vazio transferencia = new Vazio(0,0);
+			transferencia.copiaPosicao(peca);
+			peca.copiaPosicao(this.espacos[destino[0]][destino[1]]);
 			
-			
-			//passsa o movimento para o próximo jogador se a peca movida nao puder comer mais nenhuma peca
-			if(num_inicial_pecas_inimigas == num_final_pecas_inimigas || !peca.podeComerMais()) {
-				this.cor_atual = this.cor_atual == 'p' ? 'b':'p';
-			}
+			this.espacos[destino[0]][destino[1]] = peca;
+			this.espacos[inicio[0]][inicio[1]] = transferencia;
 			
 			return true;
 		}
 		
 		else {
-			System.out.println("movimento ilegal(nao ha peca no espaco)");
 			return false;
 		}
 		

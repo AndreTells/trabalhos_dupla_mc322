@@ -1,10 +1,10 @@
 package mc322.lab05;
 
 public class Movimento {
-	int xi;
-	int yi;
-	int xf;
-	int yf;
+	private int xi;
+	private int yi;
+	private int xf;
+	private int yf;
 	
 	Movimento(String movimento) {
 		
@@ -30,41 +30,22 @@ public class Movimento {
 		pos[1] = ( ((int) pos_s.charAt(0)) - ((int)'a') );
 		return pos;
 	}
-	
-	boolean ehIgual(Movimento movimento) {
-		return (this.xi == movimento.xi && this.yi == movimento.yi && this.xf == movimento.xf && this.yf == movimento.yf);
+
+	int [] pegaPosicaoInicial() {
+		int inicio[] = new int[2];
+		inicio[0] = xi;
+		inicio[1] = yi;
+		return inicio;
 	}
 
+	int [] pegaPosicaoFinal() {
+		int destino[] = new int[2];
+		destino[0] = xi;
+		destino[1] = yi;
+		return destino;
+	}
+	
 	boolean ehDentroDoTabuleiro(){
 		return !(xi>=8 || xi<0 || yi>=8 || yi<0 || xf>=8 || xf<0 || yf>=8 || yf<0);
-	}
-
-	//0 --> nao ha peca comida
-	//1 --> ha peca comida
-	//2 --> movimento ilegal
-	int haPecaComida(Tabuleiro tabuleiro) {
-		int coeficiente_angular = (yf-yi)/(xf-xi);
-		int x_referencia = coeficiente_angular == 1 ? Math.min(xi,xf) : Math.max(xi,xf);
-		int y_referencia = x_referencia == xi ? yi:yf;
-		int resultado = 0;
-		
-		for(int i = x_referencia+coeficiente_angular; i !=  (x_referencia == xi ? xf:xi); i+=coeficiente_angular) {
-			if(tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone != '-') {
-				if(resultado == 0 && (tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (tabuleiro.espacos[xi][yi].icone == 'B' ? 'p':'b') ||
-					tabuleiro.espacos[i][coeficiente_angular*(i-x_referencia)+y_referencia].icone == (tabuleiro.espacos[xi][yi].icone == 'B' ? 'P':'B'))) {
-					resultado = 1;
-				}
-				else if(resultado != 0){
-					resultado = 2;
-					break;
-				}
-				else {
-					resultado = 2;
-					break;
-				}
-			}
-		}
-			
-		return resultado;
 	}
 }
