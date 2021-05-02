@@ -17,6 +17,7 @@ public class Movimento {
 		this.xf = posicao_final[0];
 		this.yf = posicao_final[1];
 	}
+	
 	Movimento(int xi,int yi, int xf, int yf){
 		this.xi = xi;
 		this.yi = yi;
@@ -48,4 +49,5 @@ public class Movimento {
 	boolean ehDentroDoTabuleiro(){
 		return !(xi>=8 || xi<0 || yi>=8 || yi<0 || xf>=8 || xf<0 || yf>=8 || yf<0);
 	}
+
 }

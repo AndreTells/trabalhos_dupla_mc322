@@ -1,5 +1,11 @@
 package mc322.lab05;
 
+import mc322.lab05.espacos.Dama;
+import mc322.lab05.espacos.Espaco;
+import mc322.lab05.espacos.Peao;
+import mc322.lab05.espacos.Peca;
+import mc322.lab05.espacos.Vazio;
+
 public class Tabuleiro implements Cloneable{
 	private Espaco espacos[][];
 	
@@ -18,7 +24,7 @@ public class Tabuleiro implements Cloneable{
 		for(int i=0;i<espacos.length;i++) {
 			for(int j =0;j<espacos[0].length; j++) {
 				if(tabuleiro_string[i][j] != '-') {
-					espacos[i][j] = new Peca(i,j,tabuleiro_string[i][j]);
+					espacos[i][j] = new Peao(i,j,tabuleiro_string[i][j]);
 				}
 				else {
 					espacos[i][j] = new Vazio(i,j);
@@ -78,8 +84,12 @@ public class Tabuleiro implements Cloneable{
 		espacos[x][y] = espaco_peca_comida;
 	}
 
-	public Espaco pegaPeca(int x, int y) {
-		return espacos[x][y];
+	public Peca pegaPeca(int x, int y) {
+		return (Peca)espacos[x][y];
+	}
+	
+	public boolean espacoEhVazio(int x,int y) {
+		return espacos[x][y].ehVazio();
 	}
 	
 	public boolean movePeca(Movimento movimento) {
@@ -92,9 +102,9 @@ public class Tabuleiro implements Cloneable{
 		int destino[] = movimento.pegaPosicaoFinal();
 		
 		//checa se posicao inicial contem uma peca
-		if(this.espacos[inicio[0]][inicio[1]].icone != '-') {
+		if(this.espacos[inicio[0]][inicio[1]].pegaIcone() != '-') {
 			
-			Espaco peca = this.espacos[inicio[0]][inicio[1]];
+			Peca peca = this.pegaPeca(inicio[0],inicio[1]);
 			
 			if(!peca.move(this, destino[0], destino[1])) {
 				return false;
