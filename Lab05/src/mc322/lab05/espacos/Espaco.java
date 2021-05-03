@@ -20,7 +20,7 @@ public class Espaco {
 	}
 	
 	public boolean ehVazio() {
-		return this.icone =='-' ? true:false;
+		return this.icone =='-';
 	}
 	
 	public int pegaDistancia(Espaco espaco) {

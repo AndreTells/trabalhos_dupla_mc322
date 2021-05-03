@@ -18,7 +18,7 @@ public class Peao extends Peca{
 			return true;
 		}
 		
-		else if(distancia_movida == 2 && !tabuleiro.pegaPeca((this.x+xf)/2,(this.y+yf)/2).ehVazio()) {
+		else if(distancia_movida == 2 && !tabuleiro.espacoEhVazio((this.x+xf)/2,(this.y+yf)/2)) {
 			tabuleiro.removePeca((this.x+xf)/2, (this.y+yf)/2);
 			return true;
 		}

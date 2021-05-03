@@ -92,6 +92,11 @@ public class Tabuleiro implements Cloneable{
 		return espacos[x][y].ehVazio();
 	}
 	
+	public void promove_peca(Peca peca,int x,int y) {
+		
+		this.espacos[x][y] = new Dama(x,y,peca.pegaCor());
+	}
+	
 	public boolean movePeca(Movimento movimento) {
 		//checa se esta dentro do tabuleiro
 		if(!movimento.ehDentroDoTabuleiro()) {
@@ -117,6 +122,10 @@ public class Tabuleiro implements Cloneable{
 			this.espacos[destino[0]][destino[1]] = peca;
 			this.espacos[inicio[0]][inicio[1]] = transferencia;
 			
+			if(peca instanceof Peao && (peca.pegaCor() == 'b'?destino[0]==0 :destino[0]==7)) {
+				
+				promove_peca(peca,destino[0],destino[1]);
+			}
 			return true;
 		}
 		

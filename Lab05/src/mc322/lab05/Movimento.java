@@ -16,6 +16,7 @@ public class Movimento {
 		this.yi = posicao_inicial[1];
 		this.xf = posicao_final[0];
 		this.yf = posicao_final[1];
+		
 	}
 	
 	Movimento(int xi,int yi, int xf, int yf){
@@ -41,8 +42,8 @@ public class Movimento {
 
 	int [] pegaPosicaoFinal() {
 		int destino[] = new int[2];
-		destino[0] = xi;
-		destino[1] = yi;
+		destino[0] = xf;
+		destino[1] = yf;
 		return destino;
 	}
 	

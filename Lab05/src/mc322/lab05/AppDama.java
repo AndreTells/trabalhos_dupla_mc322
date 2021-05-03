@@ -25,6 +25,8 @@ public class AppDama {
 		
 			tabuleiro.imprimeTabuleiro();
 			System.out.print("\n");
+			
+			estados_tabuleiro[i+1] = tabuleiro.criaString();
 		}
 		
 		return estados_tabuleiro;
@@ -46,10 +48,16 @@ public class AppDama {
 	
 	public static void main(String Args[]) {
 		String[] tabuleiros = executaJogo(Args[0]);
+		System.out.println(tabuleiros[tabuleiros.length-1]);
 		String[] tabuleiro_final_formatado = formataParaArquivo(tabuleiros[tabuleiros.length-1]);
 		CSVHandling csv = new CSVHandling();
 		csv.setDataExport(Args[1]);
 		csv.exportState(tabuleiro_final_formatado);
+		/*Tabuleiro tabuleiro = new Tabuleiro();
+		tabuleiro.imprimeTabuleiro();
+		tabuleiro.movePeca(new Movimento("a3:c5"));
+		System.out.print("\n");
+		tabuleiro.imprimeTabuleiro();*/
 	}
 
 }
