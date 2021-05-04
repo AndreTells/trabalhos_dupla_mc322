@@ -58,11 +58,6 @@ public class AppDama {
 		CSVHandling csv = new CSVHandling();
 		csv.setDataExport(Args[1]);
 		csv.exportState(tabuleiro_final_formatado);
-		/*Tabuleiro tabuleiro = new Tabuleiro();
-		tabuleiro.imprimeTabuleiro();
-		tabuleiro.movePeca(new Movimento("a3:c5"));
-		System.out.print("\n");
-		tabuleiro.imprimeTabuleiro();*/
 	}
 
 }

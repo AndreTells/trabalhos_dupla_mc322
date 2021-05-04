@@ -33,30 +33,6 @@ public class Tabuleiro implements Cloneable{
 		}
 	}
 
-	void iniciaTabuleiroTeste() {
-		for(int i=0;i<8;i++) {
-			for(int j=0;j<8;j++) {
-				espacos[i][j] = new Vazio(i,j);
-			}
-		}
-		Dama d1 = new Dama(0,0,'b');
-		Dama d2 = new Dama(0,0,'p');
-		Dama d3 = new Dama(0,0,'p');
-		Dama d4 = new Dama(0,0,'p');
-		
-		d1.copiaPosicao(espacos[0][0]);
-		espacos[0][0] = d1;
-		
-		d2.copiaPosicao(espacos[1][1]);
-		espacos[1][1] = d2;
-		
-		d3.copiaPosicao(espacos[3][3]);
-		espacos[3][3] = d3;
-		
-		d4.copiaPosicao(espacos[5][3]);
-		espacos[5][3] = d4;
-	}
-	
 	public String criaString() {
 		String tabuleiro_string = "";
 		for(int i=0;i<espacos.length;i++) {
