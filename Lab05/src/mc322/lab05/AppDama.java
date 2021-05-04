@@ -45,7 +45,6 @@ public class AppDama {
 					char icone_na_posicao = tabuleiro_s.charAt(i*9 + j) =='-' ? '_':tabuleiro_s.charAt(i*9 + j);
 					
 					resultado[j*8 + (7-i)] = ""+horizontal+vertical+icone_na_posicao;
-					System.out.println(resultado[j*8 + (7	-i)]);
 				}
 			}
 		}
