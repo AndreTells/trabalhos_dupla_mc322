@@ -33,6 +33,10 @@ public class AppDama {
 	}
 
 	static String[] formataParaArquivo(String tabuleiro_s) {
+		if(tabuleiro_s.equals("erro")) {
+			String resultado []= {"erro"};
+			return resultado;
+		}
 		String resultado []= new String[64];
 		
 		for(int j=0;j<8;j++) {

@@ -18,13 +18,6 @@ public class Movimento {
 		this.yf = posicao_final[1];
 		
 	}
-	
-	Movimento(int xi,int yi, int xf, int yf){
-		this.xi = xi;
-		this.yi = yi;
-		this.xf = xf;
-		this.yf = yf;
-	}
 
 	private static int[] tranduzPosicao(String pos_s) {
 		int [] pos = new int[2];
