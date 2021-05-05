@@ -1,4 +1,4 @@
-package mc322.lab05;
+package mc322.lab05b;
 
 public class AppDama {
 	static String[] executaJogo(String caminho_arquivo_entrada,String caminho_arquivo_saida){

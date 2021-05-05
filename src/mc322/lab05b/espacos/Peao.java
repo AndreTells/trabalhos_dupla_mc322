@@ -1,6 +1,6 @@
-package mc322.lab05.espacos;
+package mc322.lab05b.espacos;
 
-import mc322.lab05.Tabuleiro;
+import mc322.lab05b.Tabuleiro;
 
 public class Peao extends Peca{
 	public Peao(int x, int y, char cor){

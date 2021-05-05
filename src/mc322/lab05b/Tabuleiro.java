@@ -1,10 +1,10 @@
-package mc322.lab05;
+package mc322.lab05b;
 
-import mc322.lab05.espacos.Dama;
-import mc322.lab05.espacos.Espaco;
-import mc322.lab05.espacos.Peao;
-import mc322.lab05.espacos.Peca;
-import mc322.lab05.espacos.Vazio;
+import mc322.lab05b.espacos.Dama;
+import mc322.lab05b.espacos.Espaco;
+import mc322.lab05b.espacos.Peao;
+import mc322.lab05b.espacos.Peca;
+import mc322.lab05b.espacos.Vazio;
 
 public class Tabuleiro implements Cloneable{
 	private Espaco espacos[][];

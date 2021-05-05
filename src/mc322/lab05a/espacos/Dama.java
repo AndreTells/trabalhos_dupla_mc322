@@ -1,6 +1,6 @@
-package mc322.lab05.espacos;
+package mc322.lab05a.espacos;
 
-import mc322.lab05.Tabuleiro;
+import mc322.lab05a.Tabuleiro;
 
 public class Dama extends Peca {
 	public Dama(int x, int y, char cor){

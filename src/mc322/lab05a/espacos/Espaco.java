@@ -1,4 +1,4 @@
-package mc322.lab05.espacos;
+package mc322.lab05a.espacos;
 
 public class Espaco {
 	protected int x;

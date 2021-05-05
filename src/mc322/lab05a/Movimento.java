@@ -1,4 +1,4 @@
-package mc322.lab05;
+package mc322.lab05a;
 
 public class Movimento {
 	private int xi;
