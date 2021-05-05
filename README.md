@@ -4,7 +4,7 @@ Para jogar, basta seguir a seguinte sequencia de açoes:
 * colocar o arquivo com os movimentos na pasta data
 * rodar o comando abaixo :
 
-> $ java mc322.lab05b.AppDama _caminho e nome para o arquivo de entrada_ _caminho e nome para arquivo de saida que será criado_
+> $ java mc322.lab05b.AppDama < _caminho e nome para o arquivo de entrada_ > < _caminho e nome para arquivo de saida que será criado_ >
 
 ## Link para arquivos
 
