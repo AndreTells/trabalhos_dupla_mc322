@@ -73,7 +73,7 @@ public class Tabuleiro implements Cloneable{
 		this.espacos[x][y] = new Dama(x,y,peca.pegaCor());
 	}
 	
-	public boolean movePeca(Movimento movimento) {
+	public boolean solicitaMovimento(Movimento movimento) {
 		//checa se esta dentro do tabuleiro
 		if(!movimento.ehDentroDoTabuleiro()) {
 			return false;

@@ -1,9 +1,9 @@
 package mc322.lab05;
 
 public class AppDama {
-	static String[] executaJogo(String caminho_arquivo){
+	static String[] executaJogo(String caminho_arquivo_entrada,String caminho_arquivo_saida){
 		CSVHandling csv = new CSVHandling();
- 		csv.setDataSource(caminho_arquivo);
+ 		csv.setDataSource(caminho_arquivo_entrada);
 		String movimentos_string [] = csv.requestCommands();
 		
 		Tabuleiro tabuleiro = new Tabuleiro();
@@ -15,9 +15,9 @@ public class AppDama {
 		estados_tabuleiro[0] = tabuleiro.criaString();
 		
 		for(int i=0;i<movimentos_string.length;i++) {
-			if(!tabuleiro.movePeca(new Movimento(movimentos_string[i]))) {
+			if(!tabuleiro.solicitaMovimento(new Movimento(movimentos_string[i]))) {
 				estados_tabuleiro[i+1] = "erro";
-				break;
+				continue;
 			}
 			
 			System.out.println("Posicao inicial: "+movimentos_string[i].substring(0,2));
@@ -28,6 +28,12 @@ public class AppDama {
 			
 			estados_tabuleiro[i+1] = tabuleiro.criaString();
 		}
+		
+		
+		
+		String[] tabuleiro_final_formatado = formataParaArquivo(estados_tabuleiro[estados_tabuleiro.length-1]);
+		csv.setDataExport(caminho_arquivo_saida);
+		csv.exportState(tabuleiro_final_formatado);
 		
 		return estados_tabuleiro;
 	}
@@ -56,11 +62,7 @@ public class AppDama {
 	}
 	
 	public static void main(String Args[]) {
-		String[] tabuleiros = executaJogo(Args[0]);
-		String[] tabuleiro_final_formatado = formataParaArquivo(tabuleiros[tabuleiros.length-1]);
-		CSVHandling csv = new CSVHandling();
-		csv.setDataExport(Args[1]);
-		csv.exportState(tabuleiro_final_formatado);
+		executaJogo(Args[0],Args[1]);
 	}
 
 }
