@@ -18,6 +18,7 @@ public class AppDama {
 			if(!tabuleiro.solicitaMovimento(new Movimento(movimentos_string[i]))) {
 				estados_tabuleiro[i+1] = "erro";
 				System.out.println("Movimento invalido!");
+				System.out.print("\n");
 				continue;
 			}
 			
